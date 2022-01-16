@@ -1,3 +1,5 @@
+import heapq
+
 n = int(input())
 tri_range = []
 
@@ -8,7 +10,7 @@ for i in range(n):
     
 tri_range = sorted(tri_range, key= lambda x: x[0])
     
-#print(tri_range)
+print(tri_range)
 
 tracker = [0]*(2*n)
 tracker[0]=1
@@ -16,23 +18,32 @@ tracker[0]=1
 peaks = 0
 s = 0
 i = 0
+peaks+=0
+unvisited = []
+heapq.heappify(unvisited)
 
-while i < (2*n):
-    if tri_range[i][2] == "e": 
-        if tri_range[s][0] == tri_range[i][1]: 
-            peaks+=1
-            s = tracker.index(0)
-            tracker[s]=1
-            tracker[i]=1
-        else: #it is an ending coordinate and it doesn't match with the first coordinate
-            tracker[i]+=1
-            tracker[tri_range.index((tri_range[i][1], tri_range[i][0], "s"))]+=1
-            #stack.remove((tri_range[i][1], tri_range[i][0], "s"))
-    #print(tracker, peaks, s, i)
-    if s==i and s>0: 
-        s+=1
-        i+=2
+for i in range (2*n):
+    print(tri_range[s], tri_range[i], peaks)
+    if (s==i): 
+        continue 
+    
     else: 
-        i+=1
+        if tri_range[i][2]=="s": #if overlapping dont do anything
+            if tri_range[i][1] <= tri_range[s][1]: 
+                continue
+            else:  #if not overlapping, increment peaks
+                heapq.heappush(unvisited, i)
+                
+        #if it is an end that corresponds to the first one, switch standard to the index in unvisited
+        #and if unvisited is empty, then standard is simply the next one
+        if tri_range[i][2]=="e":
+            if tri_range[i][1]==tri_range[s][0]:
+                peaks+=1
+                if len(unvisited) <= u_i and i!= (2*n - 1):
+                    s = i+1
+                else: 
+                    s = unvisited[u_i]
+                    u_i+=1
 print(peaks)
+print(unvisited, u_i)
 #print(tracker)
