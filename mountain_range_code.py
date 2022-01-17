@@ -20,7 +20,7 @@ s = 0
 i = 0
 peaks+=0
 unvisited = []
-heapq.heappify(unvisited)
+heapq.heapify(unvisited)
 
 for i in range (2*n):
     print(tri_range[s], tri_range[i], peaks)
@@ -39,11 +39,10 @@ for i in range (2*n):
         if tri_range[i][2]=="e":
             if tri_range[i][1]==tri_range[s][0]:
                 peaks+=1
-                if len(unvisited) <= u_i and i!= (2*n - 1):
+                if len(unvisited) <= 0 and i < (2*n-1):
                     s = i+1
-                else: 
-                    s = unvisited[u_i]
-                    u_i+=1
+                else:
+                    s = heapq.heappop(unvisited)
 print(peaks)
 print(unvisited, u_i)
 #print(tracker)
